@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Convey.MessageBrokers;
 using Identity.Service.Contexts;
 using Identity.Service.Domain;
+using Identity.Service.Events;
 using Identity.Service.Helpers;
 using Identity.Service.Models;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Identity.Service.Services
@@ -19,11 +19,13 @@ namespace Identity.Service.Services
     {
         private readonly IdentityContext _dbContext;
         private readonly AppSettings _appSettings;
+        private readonly IBusPublisher _publisher;
 
-        public IdentityService(IOptions<AppSettings> appSettings, IdentityContext dbContext)
+        public IdentityService(IOptions<AppSettings> appSettings, IBusPublisher publisher, IdentityContext dbContext)
         {
             _appSettings = appSettings.Value;
             _dbContext = dbContext;
+            _publisher = publisher;
         }
 
         public Task<string> SignIn(SignInModel model)
@@ -55,14 +57,27 @@ namespace Identity.Service.Services
             if (user != null)
                 throw new Exception("Username already in use");
             
-            user = new User(model.Username,model.Password,model.Role);
+            user = new User(model.Username, model.Password, model.Role);/*
             _dbContext.Users.Add(user);
 
-           if(_dbContext.SaveChanges() == 0)
+            if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not save user in database");
             }
+            */
+            if (user.Role == Role.Player)
+            {
+                var @event = new PlayerCreatedEvent()
+                {
+                    PlayerId = user.Id,
+                    Name = user.Username,
+                    Surname = user.Username,
+                    Age = 8
+                };
 
+                _publisher.PublishAsync(@event);
+            }
+            
             return Task.CompletedTask;
         }
     }

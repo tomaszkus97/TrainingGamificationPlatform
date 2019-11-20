@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Convey;
+using Convey.MessageBrokers.RawRabbit;
 using Identity.Service.Contexts;
 using Identity.Service.Helpers;
 using Identity.Service.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 
 namespace Identity.Service
 {
@@ -30,8 +24,6 @@ namespace Identity.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
             services.AddCors(options =>
                                options.AddPolicy("TGPPolicy", p => p.WithOrigins("http://localhost:4200")
                                                                         .AllowAnyMethod()
@@ -40,19 +32,25 @@ namespace Identity.Service
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
+            services.AddMvc(option => option.EnableEndpointRouting = false);
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Identity API", Version = "v1" });
             });
             services.AddDbContext<IdentityContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddScoped<IIdentityService, IdentityService>();
+
+            var builder = ConveyBuilder
+                .Create(services)
+                .AddRabbitMq<CorrelationContext>()
+                .Build();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.EnvironmentName.Equals("Development"))
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -73,8 +71,10 @@ namespace Identity.Service
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity API V1");
             });
+
+            app.UseRabbitMq();
 
         }
     }

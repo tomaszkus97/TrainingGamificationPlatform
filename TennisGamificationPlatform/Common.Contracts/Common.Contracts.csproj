@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Convey.CQRS.Events" Version="0.3.114" />
+    <PackageReference Include="Convey.MessageBrokers" Version="0.3.117" />
+  </ItemGroup>
+
+</Project>

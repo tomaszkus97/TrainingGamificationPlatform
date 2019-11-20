@@ -1,20 +1,14 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim AS base
+# Dockerfile
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build-env
+
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+COPY *.csproj ./
+RUN dotnet restore
+COPY . ./
+RUN dotnet publish -c Release -o out
 
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
-WORKDIR /src
-COPY ["Identity.Service/Identity.Service.csproj", "Identity.Service/"]
-RUN dotnet restore "Identity.Service/Identity.Service.csproj"
-COPY . .
-WORKDIR "/src/Identity.Service"
-RUN dotnet build "Identity.Service.csproj" -c Release -o /app
-
-FROM build AS publish
-RUN dotnet publish "Identity.Service.csproj" -c Release -o /app
-
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0
 WORKDIR /app
-COPY --from=publish /app .
+COPY --from=build-env /app/out .
+ENV ASPNETCORE_URLS http://*:5000
 ENTRYPOINT ["dotnet", "Identity.Service.dll"]

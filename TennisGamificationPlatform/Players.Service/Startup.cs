@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Players.Service.Repositories;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using Players.Service.Common;
+﻿using AutoMapper;
 using Convey;
 using Convey.CQRS.Commands;
+using Convey.CQRS.Events;
 using Convey.CQRS.Queries;
+using Convey.MessageBrokers.CQRS;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Players.Service.Common;
+using Players.Service.Events.External;
+using Players.Service.Repositories;
+using Convey.MessageBrokers.RawRabbit;
 
 namespace Players.Service
 {
@@ -41,13 +37,20 @@ namespace Players.Service
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
             services.AddMvc(option => option.EnableEndpointRouting = false);
-            services.AddDbContext<PlayersDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddDbContext<PlayersDbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             var builder = ConveyBuilder
                 .Create(services)
                 .AddCommandHandlers()
-                .AddInMemoryCommandDispatcher()
                 .AddQueryHandlers()
-                .AddInMemoryQueryDispatcher();
+                .AddEventHandlers()
+                .AddInMemoryEventDispatcher()
+                .AddInMemoryQueryDispatcher()
+                .AddInMemoryCommandDispatcher()
+                .AddRabbitMq<CorrelationContext>();
+
+
+
+
 
             services.AddSwaggerGen(c =>
             {
@@ -56,7 +59,7 @@ namespace Players.Service
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMapper mapper)
         {
             if (env.EnvironmentName.Equals("Development"))
             {
@@ -72,11 +75,14 @@ namespace Players.Service
             app.UseMvc();
 
             app.UseSwagger();
+            app.UseRabbitMq()
+                .SubscribeEvent<PlayerCreatedEvent>();
 
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Players API V1");
             });
+            mapper.ConfigurationProvider.AssertConfigurationIsValid();
         }
     }
 }

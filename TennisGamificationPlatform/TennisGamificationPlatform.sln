@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Service", "Identity.Service\Identity.Service.csproj", "{64FCE8A5-AB21-4665-8E77-D530A578F99B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Players.Service", "Players.Service\Players.Service.csproj", "{E3F30D53-4C5F-49B3-B3DF-F17FA626CEE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Players.Service", "Players.Service\Players.Service.csproj", "{E3F30D53-4C5F-49B3-B3DF-F17FA626CEE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

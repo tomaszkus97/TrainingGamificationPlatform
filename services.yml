@@ -1,0 +1,44 @@
+version: "3.5"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - tgp
+    environment:
+      - RABBITMQ_DEFAULT_USER=tgp
+      - RABBITMQ_DEFAULT_PASS=tgp
+
+#  identity:
+#    build: TennisGamificationPlatform/Identity.Service
+#    container_name: identity-service
+#    restart: always
+#    ports:
+#      - 5001:5000
+#    depends_on:
+#      - rabbitmq
+#    networks:
+#      - tgp
+#    links: ["rabbitmq"]
+#
+#  players:
+#    build: TennisGamificationPlatform/Players.Service
+#    container_name: players-service
+#    restart: always
+#    ports:
+#      - 5002:5000 
+#    depends_on:
+#      - rabbitmq
+#    networks:
+#      - tgp
+#    links: ["rabbitmq"]
+
+networks:
+  tgp:
+    name: tgp
+    external: true

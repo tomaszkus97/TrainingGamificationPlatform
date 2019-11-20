@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+  identity.service:
+    image: ${DOCKER_REGISTRY-}identityservice
+    container_name: identity-service
+    ports:
+      - 5000:5000
+    build:
+      context: .
+      dockerfile: Identity.Service/Dockerfile
+
+  players.service:
+    image: ${DOCKER_REGISTRY-}playersservice
+    container_name: players-service
+    ports:
+      - 5001:5000
+    build:
+      context: .
+      dockerfile: Players.Service/Dockerfile
+
+networks:
+  tgp:
+    name: tgp-network
+
+

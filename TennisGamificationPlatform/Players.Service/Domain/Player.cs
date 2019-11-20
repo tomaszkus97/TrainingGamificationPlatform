@@ -14,13 +14,13 @@ namespace Players.Service.Domain
         public int Age { get; set; }
         public int Points { get; set; }
         public int LevelId { get; set; }
-        public Level CurrentLevel { get; set; }
-        public IEnumerable<Guid> AssignedGroups => _groups.AsReadOnly();
-        public IEnumerable<Guid> CompletedChallenges => _completedChallenges.AsReadOnly();
-        private readonly List<Guid> _groups = new List<Guid>();
-        private readonly List<Guid> _completedChallenges = new List<Guid>();
+        public virtual Level CurrentLevel { get; set; }
+        public virtual IEnumerable<PlayerGroup> AssignedGroups => _assignedGroups;
+        public virtual IEnumerable<Challenge> CompletedChallenges => _completedChallenges;
+        private readonly List<PlayerGroup> _assignedGroups = new List<PlayerGroup>();
+        private readonly List<Challenge> _completedChallenges = new List<Challenge>();
 
-        private Player()
+        public Player()
         {
 
         }
@@ -39,10 +39,11 @@ namespace Players.Service.Domain
         public void ChallengeCompleted(Guid challengeId, int pointsGranted)
         {
             Points += pointsGranted;
-            var challenge = CompletedChallenges.FirstOrDefault(c => c == challengeId);
+            var challenge = CompletedChallenges.FirstOrDefault(c => c.Id == challengeId);
             if (challenge == null)
             {
-                _completedChallenges.Add(challengeId);
+                var newChallenge = new Challenge() { Id = challengeId };
+                _completedChallenges.Add(newChallenge);
             }
             else
             {
@@ -61,15 +62,13 @@ namespace Players.Service.Domain
 
         public void AssignToGroup(Guid groupId)
         {
-            var group = AssignedGroups.FirstOrDefault(g => g == groupId);
-            if (group == null)
+            var newGroup = new PlayerGroup()
             {
-                _groups.Add(groupId);
-            }
-            else
-            {
-                throw new Exception("Group was already assigned");
-            }
+                Id = new Guid(),
+                GroupId = groupId ,
+                PlayerId = Id
+            };
+            _assignedGroups.Add(newGroup);
         }
 
     }

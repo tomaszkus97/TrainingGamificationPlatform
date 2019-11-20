@@ -10,8 +10,8 @@ using Players.Service.Repositories;
 namespace Players.Service.Migrations
 {
     [DbContext(typeof(PlayersDbContext))]
-    [Migration("20191110122109_fix")]
-    partial class fix
+    [Migration("20191113212503_lists")]
+    partial class lists
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,27 +21,36 @@ namespace Players.Service.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Players.Service.Domain.Identity", b =>
+            modelBuilder.Entity("Players.Service.Domain.Challenge", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("PlayerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Identities");
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("Challenge");
+                });
+
+            modelBuilder.Entity("Players.Service.Domain.Group", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("Group");
                 });
 
             modelBuilder.Entity("Players.Service.Domain.Level", b =>
@@ -111,6 +120,20 @@ namespace Players.Service.Migrations
                             Points = 0,
                             Surname = "One"
                         });
+                });
+
+            modelBuilder.Entity("Players.Service.Domain.Challenge", b =>
+                {
+                    b.HasOne("Players.Service.Domain.Player", null)
+                        .WithMany("CompletedChallenges")
+                        .HasForeignKey("PlayerId");
+                });
+
+            modelBuilder.Entity("Players.Service.Domain.Group", b =>
+                {
+                    b.HasOne("Players.Service.Domain.Player", null)
+                        .WithMany("AssignedGroups")
+                        .HasForeignKey("PlayerId");
                 });
 
             modelBuilder.Entity("Players.Service.Domain.Player", b =>

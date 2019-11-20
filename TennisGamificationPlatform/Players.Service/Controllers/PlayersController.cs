@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Queries;
@@ -23,8 +24,9 @@ namespace Players.Service.Controllers
         }
 
         [HttpGet("/{playerId}")]
-        public async Task<ActionResult<PlayerDto>> GetPlayer([FromRoute] GetPlayerQuery query)
+        public async Task<ActionResult<PlayerDto>> GetPlayer([FromRoute] Guid playerId)
         {
+            var query = new GetPlayerQuery() { PlayerId = playerId };
             var result = await _queryDispatcher.QueryAsync<PlayerDto>(query);
             if(result == null)
             {

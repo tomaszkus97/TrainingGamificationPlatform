@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Players.Service.Repositories;
 
 namespace Players.Service.Migrations
 {
     [DbContext(typeof(PlayersDbContext))]
-    partial class PlayersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191114112101_upd")]
+    partial class upd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,7 +122,7 @@ namespace Players.Service.Migrations
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("PlayersGroups");
+                    b.ToTable("PlayerGroup");
                 });
 
             modelBuilder.Entity("Players.Service.Domain.Challenge", b =>

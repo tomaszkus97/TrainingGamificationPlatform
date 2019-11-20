@@ -3,37 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Players.Service.Repositories;
 
 namespace Players.Service.Migrations
 {
     [DbContext(typeof(PlayersDbContext))]
-    partial class PlayersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191113203358_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Players.Service.Domain.Challenge", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("PlayerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlayerId");
-
-                    b.ToTable("Challenge");
-                });
 
             modelBuilder.Entity("Players.Service.Domain.Level", b =>
                 {
@@ -104,46 +90,11 @@ namespace Players.Service.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Players.Service.Domain.PlayerGroup", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("GroupId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PlayerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlayerId");
-
-                    b.ToTable("PlayersGroups");
-                });
-
-            modelBuilder.Entity("Players.Service.Domain.Challenge", b =>
-                {
-                    b.HasOne("Players.Service.Domain.Player", null)
-                        .WithMany("CompletedChallenges")
-                        .HasForeignKey("PlayerId");
-                });
-
             modelBuilder.Entity("Players.Service.Domain.Player", b =>
                 {
                     b.HasOne("Players.Service.Domain.Level", "CurrentLevel")
                         .WithMany()
                         .HasForeignKey("LevelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Players.Service.Domain.PlayerGroup", b =>
-                {
-                    b.HasOne("Players.Service.Domain.Player", "Player")
-                        .WithMany("AssignedGroups")
-                        .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
