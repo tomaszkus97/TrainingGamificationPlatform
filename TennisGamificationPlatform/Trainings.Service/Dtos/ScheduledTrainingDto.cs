@@ -8,6 +8,8 @@ namespace Trainings.Service.Dtos
     public class ScheduledTrainingDto
     {
         public string GroupName { get; set; }
+        public DayOfWeek Day { get; set; }
+        public TimeSpan Hour { get; set; }
         public string CoachName { get; set; }
         public string LevelName { get; set; }
         public IEnumerable<PlayerDto> Players { get; set; }

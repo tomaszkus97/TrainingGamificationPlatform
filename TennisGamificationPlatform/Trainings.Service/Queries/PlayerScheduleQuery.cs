@@ -7,8 +7,8 @@ using Trainings.Service.Dtos;
 
 namespace Trainings.Service.Queries
 {
-    public class CoachScheduleQuery : IQuery<IEnumerable<ScheduledTrainingDto>>
+    public class PlayerScheduleQuery : IQuery<IEnumerable<ScheduledTrainingDto>>
     {
-        public Guid CoachId { get; set; }
+        public Guid PlayerId { get; set; }
     }
 }
