@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Convey;
 using Convey.CQRS.Commands;
+using Convey.CQRS.Events;
 using Convey.CQRS.Queries;
+using Convey.MessageBrokers.CQRS;
+using Convey.MessageBrokers.RawRabbit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +15,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Trainings.Service.Common;
+using Trainings.Service.Events.External;
 using Trainings.Service.Repositories;
 
 
@@ -37,7 +42,10 @@ namespace Trainings.Service
                .AddCommandHandlers()
                .AddQueryHandlers()
                .AddInMemoryQueryDispatcher()
-               .AddInMemoryCommandDispatcher();
+               .AddInMemoryCommandDispatcher()
+               .AddInMemoryEventDispatcher()
+               .AddRabbitMq<CorrelationContext>()
+               .AddEventHandlers();
 
             services.AddSwaggerGen(c =>
             {
@@ -59,10 +67,12 @@ namespace Trainings.Service
             app.UseMvc();
 
             app.UseSwagger();
+            app.UseRabbitMq()
+                .SubscribeEvent<CoachCreatedEvent>();
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Players API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Trainings API v1");
             });
         }
     }

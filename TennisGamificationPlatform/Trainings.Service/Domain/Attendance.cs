@@ -18,9 +18,10 @@ namespace Trainings.Service.Domain
 
         }
 
-        public Attendance(DateTime date, params Player[] players)
+        public Attendance(DateTime date, Guid groupId, IEnumerable<Player> players)
         {
             Id = Guid.NewGuid();
+            GroupId = groupId;
             Date = date;
             var playerAttendances = players.Select(p => new PlayerAttendance()
             {

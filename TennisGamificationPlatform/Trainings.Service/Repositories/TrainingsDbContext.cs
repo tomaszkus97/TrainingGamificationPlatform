@@ -59,5 +59,6 @@ namespace Trainings.Service.Repositories
         public DbSet<Coach> Coaches { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<TrainingGroup> TrainingGroups { get; set; }
+        public DbSet<PlayerAttendance> PlayerAttendance { get; set; }
     }
 }

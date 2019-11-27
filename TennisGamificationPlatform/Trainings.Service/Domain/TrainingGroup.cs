@@ -63,10 +63,7 @@ namespace Trainings.Service.Domain
         public void FillAttendance(params Player[] players)
         {
             var today = DateTime.Today;
-            var attendance = new Attendance(today, players)
-            {
-                GroupId = Id
-            };
+            var attendance = new Attendance(today, Id, players);
             _attendances.Add(attendance);
         }
 

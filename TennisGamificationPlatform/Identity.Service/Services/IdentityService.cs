@@ -57,14 +57,14 @@ namespace Identity.Service.Services
             if (user != null)
                 throw new Exception("Username already in use");
             
-            user = new User(model.Username, model.Password, model.Role);/*
+            user = new User(model.Username, model.Password, model.Role);
             _dbContext.Users.Add(user);
 
             if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not save user in database");
             }
-            */
+            
             if (user.Role == Role.Player)
             {
                 var @event = new PlayerCreatedEvent()
@@ -77,7 +77,18 @@ namespace Identity.Service.Services
 
                 _publisher.PublishAsync(@event);
             }
-            
+            else if (user.Role == Role.Coach)
+            {
+                var @event = new CoachCreatedEvent()
+                {
+                    PlayerId = user.Id,
+                    Name = user.Username,
+                    Surname = user.Username
+                };
+
+                _publisher.PublishAsync(@event);
+            }
+
             return Task.CompletedTask;
         }
     }
