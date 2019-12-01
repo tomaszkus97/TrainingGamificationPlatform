@@ -1,29 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Convey.CQRS.Commands;
+using Convey.CQRS.Events;
 using Microsoft.EntityFrameworkCore;
+using Trainings.Service.Events.External;
 using Trainings.Service.Repositories;
 
 namespace Trainings.Service.Commands.Handlers
 {
-    public class AssignToGroupHandler : ICommandHandler<AssignToGroupCommand>
+    public class PlayerAssignedToGroupEventHandler : IEventHandler<PlayerAssignedToGroupEvent>
     {
         private readonly TrainingsDbContext _dbContext;
 
-        public AssignToGroupHandler(TrainingsDbContext dbContext)
+        public PlayerAssignedToGroupEventHandler(TrainingsDbContext dbContext)
         {
             _dbContext = dbContext;
         }
-        public Task HandleAsync(AssignToGroupCommand command)
+        public Task HandleAsync(PlayerAssignedToGroupEvent @event)
         {
             var group = _dbContext.TrainingGroups.Include(tg => tg.PlayerTrainingGroups)
-                .FirstOrDefault(tg => tg.Id == command.GroupId);
+                .FirstOrDefault(tg => tg.Id == @event.GroupId);
 
             if(group != null)
             {
-                group.AssignPlayer(command.PlayerId);
+                group.AssignPlayer(@event.PlayerId);
                 if (_dbContext.SaveChanges() == 0)
                 {
                     throw new Exception("Could not add player to group");

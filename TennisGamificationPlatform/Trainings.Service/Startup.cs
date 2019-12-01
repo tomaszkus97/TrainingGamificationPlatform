@@ -16,9 +16,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Trainings.Service.Common;
+using Trainings.Service.Contracts;
 using Trainings.Service.Events.External;
 using Trainings.Service.Repositories;
-
+using Trainings.Service.Services.Clients;
 
 namespace Trainings.Service
 {
@@ -37,6 +38,8 @@ namespace Trainings.Service
         {
             services.AddDbContext<TrainingsDbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddHttpClient<IPlayersServiceClient, PlayersServiceClient>();
+            services.Configure<PlayersServiceClientOptions>(options => Configuration.GetSection("PlayersServiceClientOptions").Bind(options));
             var builder = ConveyBuilder
                .Create(services)
                .AddCommandHandlers()

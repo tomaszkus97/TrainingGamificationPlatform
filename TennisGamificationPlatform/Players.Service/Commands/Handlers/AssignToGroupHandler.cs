@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Convey.CQRS.Commands;
+using Convey.MessageBrokers;
 using Microsoft.EntityFrameworkCore;
+using Players.Service.Events;
 using Players.Service.Repositories;
 
 namespace Players.Service.Commands.Handlers
@@ -11,10 +13,12 @@ namespace Players.Service.Commands.Handlers
     public class AssignToGroupHandler : ICommandHandler<AssignToGroupCommand>
     {
         private readonly PlayersDbContext _dbContext;
+        private readonly IBusPublisher _busPublisher;
 
-        public AssignToGroupHandler(PlayersDbContext context)
+        public AssignToGroupHandler(PlayersDbContext context, IBusPublisher busPublisher)
         {
             _dbContext = context;
+            _busPublisher = busPublisher;
         }
 
         public Task HandleAsync(AssignToGroupCommand command)
@@ -36,6 +40,12 @@ namespace Players.Service.Commands.Handlers
             {
                 throw new Exception("Could not assign player to group");
             }
+            var @event = new PlayerAssignedToGroupEvent()
+            {
+                PlayerId = command.PlayerId,
+                GroupId = command.GroupId
+            };
+            _busPublisher.PublishAsync(@event);
 
             return Task.CompletedTask;
         }

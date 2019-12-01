@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Service", "Identit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Players.Service", "Players.Service\Players.Service.csproj", "{E3F30D53-4C5F-49B3-B3DF-F17FA626CEE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trainings.Service", "Trainings.Service\Trainings.Service.csproj", "{E6ABA0DB-E523-46AB-804B-C325BA76D831}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trainings.Service", "Trainings.Service\Trainings.Service.csproj", "{E6ABA0DB-E523-46AB-804B-C325BA76D831}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainingsServiceTests", "TrainingsServiceTests\TrainingsServiceTests.csproj", "{81C555F7-2E4D-400D-99FD-6FC4ED6BE093}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{E6ABA0DB-E523-46AB-804B-C325BA76D831}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6ABA0DB-E523-46AB-804B-C325BA76D831}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6ABA0DB-E523-46AB-804B-C325BA76D831}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81C555F7-2E4D-400D-99FD-6FC4ED6BE093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81C555F7-2E4D-400D-99FD-6FC4ED6BE093}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81C555F7-2E4D-400D-99FD-6FC4ED6BE093}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81C555F7-2E4D-400D-99FD-6FC4ED6BE093}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

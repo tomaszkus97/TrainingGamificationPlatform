@@ -36,9 +36,12 @@ namespace Players.Service.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PlayerDto>>> GetPlayers()
+        public async Task<ActionResult<IEnumerable<PlayerDto>>> GetPlayers([FromQuery] IEnumerable<Guid> Id)
         {
-            var query = new GetPlayersQuery();
+            var query = new GetPlayersQuery()
+            {
+                PlayerId = Id
+            };
             var result = await _queryDispatcher.QueryAsync<IEnumerable<PlayerDto>>(query);
             if (result == null)
             {

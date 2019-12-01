@@ -29,7 +29,7 @@ namespace Trainings.Service.Queries.Handlers
                     CoachName = $"{g.Coach.Name} {g.Coach.Surname}",
                     LevelName = g.LevelName,
                     Day = g.Day,
-                    Hour = g.Hour
+                    Hour = g.Hour.ToString()
                 })
                 .OrderByDescending(t => t.Day)
                 .ThenBy(t => t.Hour)

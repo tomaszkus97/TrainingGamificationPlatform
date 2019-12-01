@@ -42,11 +42,11 @@ namespace Trainings.Service.Controllers
         }
 
         [HttpGet("coach/{coachId}")]
-        public async Task<ActionResult> GetCoachSchedule(Guid coachId)
+        public async Task<ActionResult> GetCoachSchedule(string coachId)
         {
             var query = new CoachScheduleQuery()
             {
-                CoachId = coachId
+                CoachId = new Guid(coachId)
             };
             var results = await _queryDispatcher.QueryAsync<IEnumerable<ScheduledTrainingDto>>(query);
             if (results == null)
@@ -55,7 +55,14 @@ namespace Trainings.Service.Controllers
             }
             else
             {
-                return Ok(results);
+                var upd = results.GroupBy(g => g.Day)
+                    .Select(day => new ScheduleDto()
+                    {
+                        Day = day.Key.ToString(),
+                        Trainings = day.ToList()
+                    })
+                    .ToList();
+                return Ok(upd);
             }
         }
     }
