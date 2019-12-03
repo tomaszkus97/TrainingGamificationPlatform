@@ -76,7 +76,8 @@ namespace Players.Service
 
             app.UseSwagger();
             app.UseRabbitMq()
-                .SubscribeEvent<PlayerCreatedEvent>();
+                .SubscribeEvent<PlayerCreatedEvent>()
+                .SubscribeEvent<PlayerAttendanceEvent>();
 
             app.UseSwaggerUI(c =>
             {

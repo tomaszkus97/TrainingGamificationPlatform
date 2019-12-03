@@ -71,5 +71,10 @@ namespace Players.Service.Domain
             _assignedGroups.Add(newGroup);
         }
 
+        public void AwardAttendancePoints()
+        {
+            Points += 2;
+        }
+
     }
 }
