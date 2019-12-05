@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - tgp
+  db:
+    container_name: db
+    image: microsoft/mssql-server-linux:2017-latest
+    ports:
+      - "1439:1433"
+    environment:
+      SA_PASSWORD: "#Tgp-password"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    networks:
+      - tgp
+networks:
+  tgp:
+    name: tgp

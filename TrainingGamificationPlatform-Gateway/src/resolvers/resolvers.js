@@ -3,7 +3,7 @@ module.exports = {
       players: (_, __, { dataSources }) =>
         dataSources.playersAPI.getPlayers(),
       player: (_, { id }, { dataSources }) =>
-        dataSources.playersAPI.getPlayerById({ playerId: id }),
+        dataSources.playersAPI.getPlayerById(id),
       coachSchedule: (_, { coachId }, { dataSources }) =>
         dataSources.trainingsAPI.getCoachSchedule(coachId)
     },

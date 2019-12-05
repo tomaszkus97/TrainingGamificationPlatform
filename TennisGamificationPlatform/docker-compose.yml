@@ -9,6 +9,8 @@ services:
     build:
       context: .
       dockerfile: Identity.Service/Dockerfile
+    networks:
+      - tgp
 
   players.service:
     image: ${DOCKER_REGISTRY-}playersservice
@@ -18,9 +20,23 @@ services:
     build:
       context: .
       dockerfile: Players.Service/Dockerfile
+    networks:
+      - tgp
+
+  trainings.service:
+    image: ${DOCKER_REGISTRY-}trainingsservice
+    container_name: trainings-service
+    ports:
+      - 5002:5000
+    build:
+      context: .
+      dockerfile: Trainings.Service/Dockerfile
+    networks:
+      - tgp
+    
 
 networks:
   tgp:
-    name: tgp-network
+    name: tgp
 
 

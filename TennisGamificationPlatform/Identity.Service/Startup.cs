@@ -38,7 +38,7 @@ namespace Identity.Service
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Identity API", Version = "v1" });
             });
-            services.AddDbContext<IdentityContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddDbContext<IdentityContext>(options => options.UseSqlServer("Server=db, 1433;Database=identityDb;User=sa;Password=#Tgp-password;"));
             services.AddScoped<IIdentityService, IdentityService>();
 
             var builder = ConveyBuilder

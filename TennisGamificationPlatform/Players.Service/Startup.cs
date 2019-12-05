@@ -37,7 +37,7 @@ namespace Players.Service
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
             services.AddMvc(option => option.EnableEndpointRouting = false);
-            services.AddDbContext<PlayersDbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddDbContext<PlayersDbContext>(options => options.UseLazyLoadingProxies().UseSqlServer("Server=db, 1433;Database=playersDb;User=sa;Password=#Tgp-password;"));
             var builder = ConveyBuilder
                 .Create(services)
                 .AddCommandHandlers()

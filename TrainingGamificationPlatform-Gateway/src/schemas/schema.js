@@ -15,6 +15,8 @@ type Query {
   name: String
   age: Int
   assignedGroups: [String]
+  points: Int
+  level: String
 }
 type Schedule{
   day: String

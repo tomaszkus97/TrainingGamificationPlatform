@@ -36,7 +36,7 @@ namespace Trainings.Service
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TrainingsDbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddDbContext<TrainingsDbContext>(options => options.UseLazyLoadingProxies().UseSqlServer("Server=db, 1433;Database=trainingsDb;User=sa;Password=#Tgp-password;"));
             services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddHttpClient<IPlayersServiceClient, PlayersServiceClient>();
             services.Configure<PlayersServiceClientOptions>(options => Configuration.GetSection("PlayersServiceClientOptions").Bind(options));

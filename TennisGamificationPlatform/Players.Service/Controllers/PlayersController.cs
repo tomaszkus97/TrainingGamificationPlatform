@@ -23,7 +23,7 @@ namespace Players.Service.Controllers
             _commandDispatcher = commandDispatcher;
         }
 
-        [HttpGet("/{playerId}")]
+        [HttpGet("{playerId}")]
         public async Task<ActionResult<PlayerDto>> GetPlayer([FromRoute] Guid playerId)
         {
             var query = new GetPlayerQuery() { PlayerId = playerId };

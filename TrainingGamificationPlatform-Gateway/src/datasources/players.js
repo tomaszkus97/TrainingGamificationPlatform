@@ -3,7 +3,7 @@ const { RESTDataSource } = require('apollo-datasource-rest');
 class PlayersAPI extends RESTDataSource {
   constructor() {
     super();
-    this.baseURL = 'http://localhost:5003/api';
+    this.baseURL = 'http://localhost:5001/api';
   }
 
   async getPlayers() {
@@ -13,9 +13,9 @@ class PlayersAPI extends RESTDataSource {
       : [];
   }
 
-  async getPlayerById({ playerId }) {
-    const response = await this.get({ playerId: playerId });
-    return this.playerReducer(response[0]);
+  async getPlayerById(playerId) {
+    const response = await this.get(`Players/${playerId}`);
+    return this.playerReducer(response);
   }
 
   playerReducer(player) {
@@ -23,7 +23,9 @@ class PlayersAPI extends RESTDataSource {
       id: player.id || 0,
       name: `${player.name +' ' + player.surname}`,
       age: player.age,
-      assignedGroups: player.assignedGroups
+      assignedGroups: player.assignedGroups,
+      points: player.points,
+      level: player.levelId
     };
   }
 }
