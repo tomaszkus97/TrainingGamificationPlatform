@@ -23,6 +23,17 @@ class TrainingsAPI extends RESTDataSource {
     return response;
   }
 
+  async createGroup(model){
+    const body ={
+      day: model.day,
+      hour: model.hour,
+      levelName: model.levelName
+    }
+    console.log(body);
+    const response = await this.post('Groups', body);
+    return response;
+  }
+
   scheduleReducer(day){
     return {
       day: day.day,

@@ -3,7 +3,9 @@ module.exports = {
       players: (_, __, { dataSources }) =>
         dataSources.playersAPI.getPlayers(),
       player: (_, { id }, { dataSources }) =>
-        dataSources.playersAPI.getPlayerById(id),
+      {
+        dataSources.playersAPI.getPlayerById(id)
+      },
       coachSchedule: (_, { coachId }, { dataSources }) =>
         dataSources.trainingsAPI.getCoachSchedule(coachId)
     },
@@ -14,6 +16,10 @@ module.exports = {
         },
         attendance: async (_, {groupId,date,attendantPlayers}, { dataSources }) => {
           const response = await dataSources.trainingsAPI.fillAttendance(groupId,date,attendantPlayers);
+          console.log(response);
+        },
+        createGroup: async (_, {model}, {dataSources}) => {
+          const response = await dataSources.trainingsAPI.createGroup(model);
           console.log(response);
         }
       },

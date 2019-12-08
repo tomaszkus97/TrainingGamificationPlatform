@@ -9,6 +9,7 @@ type Query {
   type Mutation {
   login(username: String, password: String): String!
   attendance(groupId: String, date: String, attendantPlayers: [String]): Response
+  createGroup(model: CreateGroupModel): Response
 }
   type Player {
   id: String!
@@ -37,6 +38,11 @@ type User {
 }
 type Response{
   code: Int
+}
+input CreateGroupModel{
+  day: String
+  hour: String
+  levelName: String
 }
 `;
 

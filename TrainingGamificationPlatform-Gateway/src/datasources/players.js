@@ -14,6 +14,7 @@ class PlayersAPI extends RESTDataSource {
   }
 
   async getPlayerById(playerId) {
+    console.log(playerId);
     const response = await this.get(`Players/${playerId}`);
     return this.playerReducer(response);
   }

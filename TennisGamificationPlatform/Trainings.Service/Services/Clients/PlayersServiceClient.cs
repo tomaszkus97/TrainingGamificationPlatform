@@ -18,7 +18,7 @@ namespace Trainings.Service.Services.Clients
         public PlayersServiceClient(HttpClient client, IOptions<PlayersServiceClientOptions> settings)
         {
             _client = client;
-            _baseUrl = settings.Value.BaseUrl;
+            _baseUrl = "http://players.service:5000/api/Players";
         }
 
         public async Task<IEnumerable<PlayerDto>> GetPlayers(IEnumerable<Guid> PlayerIds)
