@@ -1,8 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Trainings.Service.Commands;
+using Trainings.Service.Dtos;
+using Trainings.Service.Queries;
 
 namespace Trainings.Service.Controllers
 {
@@ -17,6 +21,33 @@ namespace Trainings.Service.Controllers
         {
             _queryDispatcher = queryDispatcher;
             _commandDispatcher = commandDispatcher;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetGroups([FromQuery] IEnumerable<Guid> ids)
+        {
+            var query = new GetGroupsByIdQuery()
+            {
+                GroupIds = ids
+            };
+            var result = await _queryDispatcher.QueryAsync<IEnumerable<ScheduledTrainingDto>>(query);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("Coaches")]
+        public async Task<ActionResult> GetCoaches()
+        {
+            var query = new GetCoachesQuery();
+            var result = await _queryDispatcher.QueryAsync<IEnumerable<CoachDto>>(query);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
 
         [HttpPost]

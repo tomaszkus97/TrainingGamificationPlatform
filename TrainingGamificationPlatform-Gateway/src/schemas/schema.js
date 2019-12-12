@@ -5,6 +5,8 @@ type Query {
     players: [Player]!
     player(id: ID!): Player
     coachSchedule(coachId: String): [Schedule]
+    groups(ids: [String]): [Group]
+    coaches: [Coach]
 }
   type Mutation {
   login(username: String, password: String): String!
@@ -16,8 +18,13 @@ type Query {
   name: String
   age: Int
   assignedGroups: [String]
+  groups: [Group]
   points: Int
   level: String
+}
+type Coach {
+  id: String!
+  name: String
 }
 type Schedule{
   day: String

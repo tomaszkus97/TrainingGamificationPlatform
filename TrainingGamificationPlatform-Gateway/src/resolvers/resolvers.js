@@ -7,7 +7,11 @@ module.exports = {
         dataSources.playersAPI.getPlayerById(id)
       },
       coachSchedule: (_, { coachId }, { dataSources }) =>
-        dataSources.trainingsAPI.getCoachSchedule(coachId)
+        dataSources.trainingsAPI.getCoachSchedule(coachId),
+      groups: (_, { ids }, { dataSources }) =>
+        dataSources.trainingsAPI.getGroupsByIds(ids),
+      coaches: (_,__,{ dataSources }) =>
+        dataSources.trainingsAPI.getCoaches(),
     },
     Mutation: {
         login: async (_, { username,password }, { dataSources }) => {
@@ -21,6 +25,16 @@ module.exports = {
         createGroup: async (_, {model}, {dataSources}) => {
           const response = await dataSources.trainingsAPI.createGroup(model);
           console.log(response);
+    }},
+    Player: {
+      groups: (player, { ids }, { dataSources }) =>
+      {
+        if(player.assignedGroups.length > 0){
+         return dataSources.trainingsAPI.getGroupsByIds(player.assignedGroups)
         }
-      },
-}
+        else return [];
+      }
+  
+    }
+
+  }

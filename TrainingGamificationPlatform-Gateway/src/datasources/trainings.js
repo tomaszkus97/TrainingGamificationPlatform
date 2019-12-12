@@ -13,6 +13,26 @@ class TrainingsAPI extends RESTDataSource {
       : [];
   }
 
+  async getCoaches() {
+    const response = await this.get(`Groups/Coaches`);
+    return Array.isArray(response)
+      ? response.map(day => this.coachReducer(day))
+      : [];
+  }
+
+  async getGroupsByIds(ids) {
+    var params = new URLSearchParams();
+    if(ids){
+    ids.map(id => params.append('ids',id));
+    }
+    console.log(params);
+    const response = await this.get(`Groups`,params);
+    return Array.isArray(response)
+      ? response.map(group => this.groupsReducer(group))
+      : [];
+  }
+
+
   async fillAttendance(groupId,date,attendantPlayers){
     const body = {
       groupId: groupId,
@@ -48,6 +68,21 @@ class TrainingsAPI extends RESTDataSource {
       age: player.age,
       assignedGroups: player.assignedGroups
     };
+  }
+  coachReducer(coach) {
+    return {
+      id: coach.id || 0,
+      name: `${coach.name +' ' + coach.surname}`,
+    };
+  }
+  groupsReducer(group){
+    return{
+      name: group.groupName,
+      day: group.day,
+      hour: group.hour,
+      levelName: group.levelName,
+      players: null
+    }
   }
 
   trainingsReducer(training){
