@@ -50,13 +50,55 @@ namespace Identity.Service.Services
 
             return Task.FromResult(tokenHandler.WriteToken(token));
         }
+        public async Task SignUpCoach(SignUpCoachModel model)
+        {
+            var suModel = new SignUpModel()
+            {
+                Username = model.Username,
+                Password = model.Password,
+                Role = Role.Coach.ToString()
+            };
+            var id = await SignUp(suModel);
 
-        public Task SignUp(SignUpModel model)
+            var @event = new CoachCreatedEvent()
+            {
+                CoachId = id,
+                Name = model.Name,
+                Surname = model.Surname
+            };
+
+            await _publisher.PublishAsync(@event);
+        }
+
+        public async Task SignUpPlayer(SignUpPlayerModel model)
+        {
+            var suModel = new SignUpModel()
+            {
+                Username = model.Username,
+                Password = model.Password,
+                Role = Role.Player.ToString()
+            };
+            var id = await SignUp(suModel);
+
+            var @event = new PlayerCreatedEvent()
+            {
+                PlayerId = id,
+                Name = model.Name,
+                Surname = model.Surname,
+                Age = model.Age,
+                LevelName = model.LevelName
+            };
+
+            await _publisher.PublishAsync(@event);
+        }
+
+
+        private Task<Guid> SignUp(SignUpModel model)
         {
             var user = _dbContext.Users.SingleOrDefault(x => x.Username == model.Username);
             if (user != null)
                 throw new Exception("Username already in use");
-            
+
             user = new User(model.Username, model.Password, model.Role);
             _dbContext.Users.Add(user);
 
@@ -64,32 +106,8 @@ namespace Identity.Service.Services
             {
                 throw new Exception("Could not save user in database");
             }
-            
-            if (user.Role == Role.Player)
-            {
-                var @event = new PlayerCreatedEvent()
-                {
-                    PlayerId = user.Id,
-                    Name = user.Username,
-                    Surname = user.Username,
-                    Age = 8
-                };
 
-                _publisher.PublishAsync(@event);
-            }
-            else if (user.Role == Role.Coach)
-            {
-                var @event = new CoachCreatedEvent()
-                {
-                    PlayerId = user.Id,
-                    Name = user.Username,
-                    Surname = user.Username
-                };
-
-                _publisher.PublishAsync(@event);
-            }
-
-            return Task.CompletedTask;
+            return Task.FromResult(user.Id);
         }
     }
 }

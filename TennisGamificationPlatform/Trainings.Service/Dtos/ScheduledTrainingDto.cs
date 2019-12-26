@@ -7,6 +7,7 @@ namespace Trainings.Service.Dtos
 {
     public class ScheduledTrainingDto
     {
+        public string GroupId { get; set; }
         public string GroupName { get; set; }
         public DayOfWeek Day { get; set; }
         public string Hour { get; set; }

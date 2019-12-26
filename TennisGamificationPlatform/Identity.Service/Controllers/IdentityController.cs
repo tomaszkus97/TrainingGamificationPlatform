@@ -21,10 +21,18 @@ namespace Identity.Service.Controllers
             _identityService = identityService;
         }
 
-        [HttpPost("sign-up")]
-        public async Task<IActionResult> SignUp([FromBody]SignUpModel model)
+        [HttpPost("sign-up/player")]
+        public async Task<IActionResult> SignUpPlayer([FromBody]SignUpPlayerModel model)
         {
-            await _identityService.SignUp(model);
+            await _identityService.SignUpPlayer(model);
+
+            return NoContent();
+        }
+
+        [HttpPost("sign-up/coach")]
+        public async Task<IActionResult> SignUpCoach([FromBody]SignUpCoachModel model)
+        {
+            await _identityService.SignUpCoach(model);
 
             return NoContent();
         }

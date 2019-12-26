@@ -10,7 +10,8 @@ namespace Identity.Service.Services
 {
     public interface IIdentityService
     {
-        Task SignUp(SignUpModel model);
+        Task SignUpPlayer(SignUpPlayerModel model);
+        Task SignUpCoach(SignUpCoachModel model);
         Task<string> SignIn(SignInModel model);
     }
 }

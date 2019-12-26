@@ -28,8 +28,9 @@ namespace Trainings.Service.Queries.Handlers
 
             return groups.Select(g => new ScheduledTrainingDto
             {
+                GroupId = g.Id.ToString(),
                 GroupName = g.Name,
-                CoachName = $"{g.Coach.Name} {g.Coach.Surname}",
+                CoachName = $"{g.Coach?.Name} {g.Coach?.Surname}",
                 LevelName = g.LevelName,
                 Day = g.Day,
                 Hour = g.Hour.ToString()

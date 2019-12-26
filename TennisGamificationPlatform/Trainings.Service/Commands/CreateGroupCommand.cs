@@ -11,5 +11,6 @@ namespace Trainings.Service.Commands
         public string Day { get; set; }
         public string Hour { get; set; }
         public string LevelName { get; set; }
+        public Guid CoachId { get; set; }
     }
 }

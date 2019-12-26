@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Convey.CQRS.Events;
-using Convey.MessageBrokers;
 
-namespace Identity.Service.Events
+namespace Identity.Service.Models
 {
-    [Message("identity")]
-    public class CoachCreatedEvent : IEvent
+    public class SignUpCoachModel
     {
-        public Guid CoachId { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
     }

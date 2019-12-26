@@ -14,9 +14,18 @@ class PlayersAPI extends RESTDataSource {
   }
 
   async getPlayerById(playerId) {
-    console.log(playerId);
     const response = await this.get(`Players/${playerId}`);
     return this.playerReducer(response);
+  }
+
+  async assignGroup(groupId, playerId){
+    const body ={
+      playerId: playerId,
+      groupId: groupId
+    }
+    console.log(body);
+    const response = await this.put('Players/assign-group', body);
+    return response;
   }
 
   playerReducer(player) {

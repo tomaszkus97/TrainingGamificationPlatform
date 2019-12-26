@@ -47,7 +47,8 @@ class TrainingsAPI extends RESTDataSource {
     const body ={
       day: model.day,
       hour: model.hour,
-      levelName: model.levelName
+      levelName: model.levelName,
+      coachId: model.coachId
     }
     console.log(body);
     const response = await this.post('Groups', body);
@@ -77,6 +78,7 @@ class TrainingsAPI extends RESTDataSource {
   }
   groupsReducer(group){
     return{
+      id: group.groupId,
       name: group.groupName,
       day: group.day,
       hour: group.hour,

@@ -19,6 +19,7 @@ namespace Trainings.Service.Commands.Handlers
         public Task HandleAsync(CreateGroupCommand command)
         {
             var group = new TrainingGroup(command.Day, command.Hour, command.LevelName);
+            group.SetCoach(command.CoachId);
             _dbContext.TrainingGroups.Add(group);
             if (_dbContext.SaveChanges() == 0)
             {
