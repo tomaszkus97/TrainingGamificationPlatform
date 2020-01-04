@@ -18,16 +18,22 @@ namespace Trainings.Service.Services.Clients
         public PlayersServiceClient(HttpClient client, IOptions<PlayersServiceClientOptions> settings)
         {
             _client = client;
-            _baseUrl = "http://players.service:5000/api/Players";
+             _baseUrl = "http://players.service:5000/api/Players";
         }
 
         public async Task<IEnumerable<PlayerDto>> GetPlayers(IEnumerable<Guid> PlayerIds)
         {
-            var httpResponse = await _client.GetAsync(_baseUrl);
+            string ids = string.Empty;
+            if (PlayerIds != null && PlayerIds.Any())
+            {
+                var strings = PlayerIds.Select(id => id.ToString());
+                ids = "?Id=" + string.Join("&Id=", strings);
+            }
+            var httpResponse = await _client.GetAsync(_baseUrl + ids);
 
             if (!httpResponse.IsSuccessStatusCode)
             {
-                throw new Exception("Cannot retrieve tasks");
+                throw new Exception("Cannot retrieve players");
             }
 
             var content = await httpResponse.Content.ReadAsStringAsync();

@@ -13,6 +13,14 @@ class TrainingsAPI extends RESTDataSource {
       : [];
   }
 
+  async getTodayGroups() {
+    const response = await this.get(`Groups/today-groups`);
+    return Array.isArray(response)
+      ? response.map(group => this.trainingsReducer(group))
+      : [];
+  }
+
+
   async getCoaches() {
     const response = await this.get(`Groups/Coaches`);
     return Array.isArray(response)
@@ -50,8 +58,10 @@ class TrainingsAPI extends RESTDataSource {
       levelName: model.levelName,
       coachId: model.coachId
     }
-    console.log(body);
     const response = await this.post('Groups', body);
+    Array.isArray(response)
+      ? response.map(group => console.log(group))
+      : console.log(response);
     return response;
   }
 
@@ -89,6 +99,7 @@ class TrainingsAPI extends RESTDataSource {
 
   trainingsReducer(training){
     return{
+      id: training.groupId,
       name: training.groupName,
       day: training.day,
       hour: training.hour,

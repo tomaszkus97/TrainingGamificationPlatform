@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Convey;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Events;
@@ -10,7 +6,6 @@ using Convey.MessageBrokers.CQRS;
 using Convey.MessageBrokers.RawRabbit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -71,7 +66,8 @@ namespace Trainings.Service
 
             app.UseSwagger();
             app.UseRabbitMq()
-                .SubscribeEvent<CoachCreatedEvent>();
+                .SubscribeEvent<CoachCreatedEvent>()
+                .SubscribeEvent<PlayerAssignedToGroupEvent>();
 
             app.UseSwaggerUI(c =>
             {

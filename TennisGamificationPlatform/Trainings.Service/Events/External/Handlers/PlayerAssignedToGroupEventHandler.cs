@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Convey.CQRS.Events;
 using Microsoft.EntityFrameworkCore;
+using Trainings.Service.Domain;
 using Trainings.Service.Events.External;
 using Trainings.Service.Repositories;
 
@@ -20,6 +21,17 @@ namespace Trainings.Service.Commands.Handlers
         {
             var group = _dbContext.TrainingGroups.Include(tg => tg.PlayerTrainingGroups)
                 .FirstOrDefault(tg => tg.Id == @event.GroupId);
+
+            var player = _dbContext.Players.FirstOrDefault(p => p.Id == @event.PlayerId);
+
+            if(player == null)
+            {
+                var newPlayer = new Player()
+                {
+                    Id = @event.PlayerId
+                };
+                _dbContext.Players.Add(newPlayer);
+            }
 
             if(group != null)
             {

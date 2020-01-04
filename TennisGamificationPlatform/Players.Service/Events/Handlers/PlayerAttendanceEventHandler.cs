@@ -26,10 +26,10 @@ namespace Players.Service.Events.Handlers
             else
             {
                 player.AwardAttendancePoints();
-                if (player.DoAdvanced())
-                {
-                    //Todo handle advance!
-                }
+            }
+            if (_dbContext.SaveChanges() == 0)
+            {
+                throw new Exception("Could not add points");
             }
             return Task.CompletedTask;
         }

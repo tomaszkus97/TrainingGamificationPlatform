@@ -7,6 +7,7 @@ type Query {
     coachSchedule(coachId: String): [Schedule]
     groups(ids: [String]): [Group]
     coaches: [Coach]
+    todayGroups: [Group]
 }
   type Mutation {
   registerPlayer(model: RegisterPlayerModel): Response

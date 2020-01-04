@@ -35,7 +35,6 @@ namespace Trainings.Service.Queries.Handlers
                 Day = g.Day,
                 Hour = g.Hour.ToString()
             }).ToList();
-
         }
     }
 }

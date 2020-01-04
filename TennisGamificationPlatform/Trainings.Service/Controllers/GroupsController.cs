@@ -38,6 +38,21 @@ namespace Trainings.Service.Controllers
             return Ok(result);
         }
 
+        [HttpGet("today-groups")]
+        public async Task<ActionResult> GetTodayGroups([FromQuery] Guid coachId)
+        {
+            var query = new TodayGroupsQuery()
+            {
+                CoachId = coachId
+            };
+            var result = await _queryDispatcher.QueryAsync<IEnumerable<ScheduledTrainingDto>>(query);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
         [HttpGet("Coaches")]
         public async Task<ActionResult> GetCoaches()
         {

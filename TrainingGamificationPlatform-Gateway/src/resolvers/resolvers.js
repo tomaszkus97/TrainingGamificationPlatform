@@ -10,6 +10,8 @@ module.exports = {
         dataSources.trainingsAPI.getGroupsByIds(ids),
       coaches: (_,__,{ dataSources }) =>
         dataSources.trainingsAPI.getCoaches(),
+      todayGroups: (_, __ , { dataSources }) =>
+        dataSources.trainingsAPI.getTodayGroups()
     },
     Mutation: {
         login: async (_, { username,password }, { dataSources }) => {
