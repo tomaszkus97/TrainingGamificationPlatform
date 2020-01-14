@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -36,17 +37,18 @@ namespace Identity.Service.Services
                 throw new Exception("Invalid credentials");
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes("TgpSecretWhichIsLonger");
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-                Subject = new ClaimsIdentity(new[]
-                            {new Claim("Role", user.Role.ToString()) })
+                Subject = new ClaimsIdentity(new List<Claim>() {
+                    new Claim("Role", user.Role.ToString()),
+                    new Claim("Id", user.Id.ToString()),
+                    new Claim("Name", user.Username)
+                })
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-
-
 
             return Task.FromResult(tokenHandler.WriteToken(token));
         }

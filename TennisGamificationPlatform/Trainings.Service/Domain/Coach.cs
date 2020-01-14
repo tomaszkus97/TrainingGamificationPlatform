@@ -16,10 +16,10 @@ namespace Trainings.Service.Domain
 
         public Coach(Guid identityId, string name, string surname)
         {
-            Id = Guid.NewGuid();
+            Id = identityId;
             Name = name;
             Surname = surname;
-            IdentityId = identityId;
+            IdentityId = Guid.NewGuid();
         }
     }
 }

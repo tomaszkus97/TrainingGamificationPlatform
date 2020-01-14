@@ -33,6 +33,17 @@ services:
       dockerfile: Trainings.Service/Dockerfile
     networks:
       - tgp
+
+  gamification.service:
+    image: ${DOCKER_REGISTRY-}gamificationservice
+    container_name: gamification-service
+    ports:
+      - 5003:5000
+    build:
+      context: .
+      dockerfile: Gamification.Service/Dockerfile
+    networks:
+      - tgp
     
 
 networks:

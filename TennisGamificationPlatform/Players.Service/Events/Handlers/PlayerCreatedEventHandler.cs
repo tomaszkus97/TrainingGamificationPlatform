@@ -20,8 +20,8 @@ namespace Players.Service.Events.Handlers
         {
             var newPlayer = new Player()
             {
-                Id = new System.Guid(),
-                IdentityId = @event.PlayerId,
+                Id = @event.PlayerId,
+                IdentityId = new System.Guid(),
                 Name = @event.Name,
                 Surname = @event.Surname,
                 Age = @event.Age,

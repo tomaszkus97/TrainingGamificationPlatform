@@ -42,17 +42,6 @@ namespace Trainings.Service.Repositories
                 .HasOne(pa => pa.Attendance)
                 .WithMany(a=>a.AttendantPlayers)
                 .HasForeignKey(pa => pa.AttendanceId);
-
-            modelBuilder.Entity<Coach>()
-                .HasData(new Coach(new Guid(),"Test","Coach"));
-
-            modelBuilder.Entity<Player>()
-                .HasData(new Player(new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6")));
-
-            modelBuilder.Entity<TrainingGroup>()
-                .HasData(new TrainingGroup("Wednesday","18:00","Red"));
-
-
         }
 
         public DbSet<Player> Players { get; set; }

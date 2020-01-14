@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Players.Service", "Players.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trainings.Service", "Trainings.Service\Trainings.Service.csproj", "{E6ABA0DB-E523-46AB-804B-C325BA76D831}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainingsServiceTests", "TrainingsServiceTests\TrainingsServiceTests.csproj", "{81C555F7-2E4D-400D-99FD-6FC4ED6BE093}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainingsServiceTests", "TrainingsServiceTests\TrainingsServiceTests.csproj", "{81C555F7-2E4D-400D-99FD-6FC4ED6BE093}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gamification.Service", "Gamification.Service\Gamification.Service.csproj", "{AE30F994-9683-4DBB-BB3F-B5132D7347E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{81C555F7-2E4D-400D-99FD-6FC4ED6BE093}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81C555F7-2E4D-400D-99FD-6FC4ED6BE093}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81C555F7-2E4D-400D-99FD-6FC4ED6BE093}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE30F994-9683-4DBB-BB3F-B5132D7347E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE30F994-9683-4DBB-BB3F-B5132D7347E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE30F994-9683-4DBB-BB3F-B5132D7347E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE30F994-9683-4DBB-BB3F-B5132D7347E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
