@@ -5,9 +5,7 @@ const resolvers = require('./resolvers/resolvers');
 const PlayersAPI = require('./datasources/players');
 const IdentityAPI =  require('./datasources/identity');
 const TrainingsAPI =  require('./datasources/trainings');
-
-
-
+const GamificationAPI = require('./datasources/gamification');
 
 const server = new ApolloServer({ 
     typeDefs,
@@ -15,9 +13,11 @@ const server = new ApolloServer({
     dataSources: () => ({
         playersAPI: new PlayersAPI(),
         identityAPI: new IdentityAPI(),
-        trainingsAPI: new TrainingsAPI()
+        gamificationAPI: new GamificationAPI(),
+        trainingsAPI: new TrainingsAPI(),
       }),
     context: ({req}) =>{
+      /*
       const secret = "TgpSecretWhichIsLonger";
       const token = req.headers.authorization || '';
       console.log(token);
@@ -30,6 +30,7 @@ const server = new ApolloServer({
         throw new AuthenticationError("You must be logged in!");
       }
       console.log(decoded);
+      */
     }
      });
 

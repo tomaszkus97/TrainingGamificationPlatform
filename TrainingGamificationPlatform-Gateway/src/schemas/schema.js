@@ -8,6 +8,7 @@ type Query {
     groups(ids: [String]): [Group]
     coaches: [Coach]
     todayGroups: [Group]
+    challenges(ids: [String]): [Challenge]
 }
   type Mutation {
   registerPlayer(model: RegisterPlayerModel): Response
@@ -16,6 +17,7 @@ type Query {
   attendance(groupId: String, date: String, attendantPlayers: [String]): Response
   createGroup(model: CreateGroupModel): Response
   assignGroup(groupId: String, playerId: String): Response
+  createChallenge(model: CreateChallengeModel): Response
 }
   type Player {
   id: String!
@@ -42,6 +44,13 @@ type Group{
   levelName: String
   players: [Player]
 }
+type Challenge{
+  id: String
+  title: String
+  description: String
+  levelId: Int
+  isObligatory: Boolean
+}
 type User {
     id: String!
     name: String
@@ -56,6 +65,12 @@ input CreateGroupModel{
   hour: String
   levelName: String
   coachId: String
+}
+input CreateChallengeModel{
+  title: String
+  description: String
+  levelId: Int
+  isObligatory: Boolean
 }
 input RegisterCoachModel{
   username: String

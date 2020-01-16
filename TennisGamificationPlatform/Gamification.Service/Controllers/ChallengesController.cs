@@ -38,7 +38,7 @@ namespace Gamification.Service.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateChallenge(CreateChallengeCommand command)
+        public async Task<ActionResult> CreateChallenge([FromBody]CreateChallengeCommand command)
         {
             await _commandDispatcher.SendAsync<CreateChallengeCommand>(command);
             return Ok();

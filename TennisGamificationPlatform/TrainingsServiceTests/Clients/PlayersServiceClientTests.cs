@@ -15,11 +15,12 @@ namespace TrainingsServiceTests.Clients
         [Fact]
         public async Task ShoulReturnPlayers()
         {
-            var service = new PlayersServiceClient(new System.Net.Http.HttpClient(), Options.Create<PlayersServiceClientOptions>(
-                new PlayersServiceClientOptions()
-                {
-                    BaseUrl = "http://localhost:5001/api/Players"
-                }));
+            var service = new PlayersServiceClient(new System.Net.Http.HttpClient(),
+                Options.Create<PlayersServiceClientOptions>(
+                    new PlayersServiceClientOptions()
+                    {
+                        BaseUrl = "http://localhost:5001/api/Players"
+                    }));
 
             var players = await service.GetPlayers(null);
 
@@ -35,7 +36,7 @@ namespace TrainingsServiceTests.Clients
                     BaseUrl = "http://localhost:5001/api/Players"
                 }));
 
-            var players = await service.GetPlayers(new List<Guid> { 
+            var players = await service.GetPlayers(new List<Guid> {
                 new Guid("4F840DC9-F742-4170-94B5-08D78A07DA27")
             });
 

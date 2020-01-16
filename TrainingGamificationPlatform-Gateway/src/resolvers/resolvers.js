@@ -11,7 +11,9 @@ module.exports = {
       coaches: (_,__,{ dataSources }) =>
         dataSources.trainingsAPI.getCoaches(),
       todayGroups: (_, __ , { dataSources }) =>
-        dataSources.trainingsAPI.getTodayGroups()
+        dataSources.trainingsAPI.getTodayGroups(),
+      challenges: (_, { ids }, { dataSources }) =>
+        dataSources.gamificationAPI.getChallenges(ids)
     },
     Mutation: {
         login: async (_, { username,password }, { dataSources }) => {
@@ -41,6 +43,10 @@ module.exports = {
         assignGroup: async (_, {groupId, playerId}, {dataSources}) => {
           console.log("assign group!");
           const response = await dataSources.playersAPI.assignGroup(groupId, playerId);
+          console.log(response);
+        },
+        createChallenge: async (_, {model}, {dataSources}) => {
+          const response = await dataSources.gamificationAPI.createChallenge(model);
           console.log(response);
         }
   },
