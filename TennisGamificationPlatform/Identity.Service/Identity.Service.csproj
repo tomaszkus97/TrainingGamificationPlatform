@@ -12,7 +12,7 @@
     <PackageReference Include="Convey.MessageBrokers" Version="0.3.117" />
     <PackageReference Include="Convey.MessageBrokers.CQRS" Version="0.3.117" />
     <PackageReference Include="Convey.MessageBrokers.RawRabbit" Version="0.3.117" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
